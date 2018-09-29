@@ -1,7 +1,7 @@
 [Definition]
 
 #######
-### This file overrides the default settings found in /etc/fail2ban.conf
+### This file overrides the default settings in /etc/fail2ban/fail2ban.conf
 ### Customizations should be written here so that updates do NOT overwrite them!
 #######
 
@@ -12,6 +12,6 @@ loglevel = INFO
 logtarget = /var/log/fail2ban.log
 
 ### Amount of time (in seconds) before HISTORY of bans are cleared. (NOTE: NOT
-### active bans! This is a record of previous)
+### active bans! This is a record of previous bans.)
 ## Default: 86400 (1 day), Suggest: 604800 (7 days)
 dbpurgeage = 604800
