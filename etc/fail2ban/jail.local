@@ -1,0 +1,66 @@
+[DEFAULT]
+
+### List of IP addresses to ignore (aka NEVER ban).  This is usually just the
+### localhost but could also be static IPs of admin machines that remotely
+### connect, etc.
+## You can use an IP address, CIDR mask or DNS host here.  Multiple addresses
+## can be separated by a space or comma.
+## Suggest: 127.0.0.1/8 (IP4 localhost subnet) and ::1 (IP6 localhost)
+ignoreip = 127.0.0.1/8 ::1
+
+### Amount of time (in seconds) than an offending system should be banned.
+## Suggest 1800 (30 min).  This is long enough to discourage probe 'scripts'.
+bantime = 1800
+
+### Timeframes:  A system is banned if it generates 'maxretry' number of
+### connection attempts within 'findtime' seconds.  This can be either, or
+### a combination of, invalid login attempts, port-probes, connections to a
+### closed port, etc.
+## Suggest: 5 attempts within 5 minutes (agressive).  Some people like 20
+## within 10 min (moderate).
+maxretry = 5
+findtime = 300
+
+
+#
+# ACTIONS
+#
+
+### The destination email address for actions that involve email notifications.
+destemail = account@domain.tld
+
+### The sender email for actions that are sending emails.
+### Note: 'sendername' doesn't seem to work, it's usually overriden by the MTA.
+sender = thismachine@domain.tld
+
+### The MTA to use for sending email.  If you follow my standard setup as
+### outlined at https://mytechiethoughts.com, then you are probably using msmtp
+### which means you can use the default here: sendmail.  MOST setups can also
+### just use the default too.
+mta = sendmail
+
+
+#
+# Action shortcuts
+#
+
+### The action to be taken by default to ACTUALLY ban an offending system.
+### The specific jail configuration file can override the default ban action.
+### This references an action outlined in the configuration files or, more
+### likely, a configuration file in /etc/fail2ban/action.d/
+## Suggest: /etc/fail2ban/action.d/ufw.conf ('ufw', the .conf is implied)
+## assuming you are using UFW and it's enabled, of course.
+banaction = ufw
+
+### This is the full command processed by Fail2Ban when banning a system.
+### For example, executing 'banaction' and then sending an email notification.
+### Thus, 'banaction' is part of the overall 'action'.
+### Defaults can be referenced in jail.conf
+### If using predefined actions, put it between the brackes like:
+###    %(action_here)s
+### leaving the '%' at the beginning and the 's' at the end.
+## The most useful ones to start out with are:
+## action_ = just execute 'banaction'
+## action_mw = 'banaction' and email a whois report to destemail
+## action_mwl = 'banaction' and email a whois report & log lines to destemail
+action = %(action_mwl)s
