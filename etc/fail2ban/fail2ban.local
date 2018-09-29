@@ -1,3 +1,5 @@
+[Definition]
+
 #######
 ### This file overrides the default settings found in /etc/fail2ban.conf
 ### Customizations should be written here so that updates do NOT overwrite them!
