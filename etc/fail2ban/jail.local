@@ -1,5 +1,11 @@
 [DEFAULT]
 
+#######
+### This file overrides the default settings found in /etc/fail2ban/jail.conf
+### Customizations should be written here so that updates do NOT overwrite them!
+#######
+
+
 ### List of IP addresses to ignore (aka NEVER ban).  This is usually just the
 ### localhost but could also be static IPs of admin machines that remotely
 ### connect, etc.
