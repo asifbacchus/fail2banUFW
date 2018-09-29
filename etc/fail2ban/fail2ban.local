@@ -1,0 +1,15 @@
+#######
+### This file overrides the default settings found in /etc/fail2ban.conf
+### Customizations should be written here so that updates do NOT overwrite them!
+#######
+
+### Set logging options
+## verbosity -- options: CRITICAL, ERROR (default), WARNING, NOTICE, INFO, DEBUG
+loglevel = INFO
+## log file location (suggest: /var/log/fail2ban.log)
+logtarget = /var/log/fail2ban.log
+
+### Amount of time (in seconds) before HISTORY of bans are cleared. (NOTE: NOT
+### active bans! This is a record of previous)
+## Default: 86400 (1 day), Suggest: 604800 (7 days)
+dbpurgeage = 604800
