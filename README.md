@@ -1,4 +1,30 @@
-# Fail2Ban: Basic set up for an exposed system
+# Fail2Ban: Basic set up for an exposed system <!-- omit in toc -->
+
+## Contents <!-- omit in toc -->
+
+- [Overview](#overview)
+- [Installing an up-to-date Fail2Ban version](#installing-an-up-to-date-fail2ban-version)
+- [Customizing your set up](#customizing-your-set-up)
+    - [/etc/fail2ban/fail2ban.conf](#etcfail2banfail2banconf)
+        - [loglevel](#loglevel)
+        - [logtarget](#logtarget)
+        - [dbpurgeage](#dbpurgeage)
+    - [/etc/fail2ban/jail.local](#etcfail2banjaillocal)
+        - [ignoreip](#ignoreip)
+        - [Timeframes](#timeframes)
+        - [Actions](#actions)
+            - [Notication options](#notication-options)
+            - [Shortcuts](#shortcuts)
+- [Jails](#jails)
+    - [sshd (/etc/fail2ban/jail.d/ssh.conf)](#sshd-etcfail2banjaildsshconf)
+    - [UFW port probing](#ufw-port-probing)
+        - [Name of the jail](#name-of-the-jail)
+        - [Ports and IPs](#ports-and-ips)
+        - [Timeframes](#timeframes)
+        - [Jail-specific settings](#jail-specific-settings)
+- [The UFW filter regex (/etc/fail2ban/filter.d/ufw-probe.conf)](#the-ufw-filter-regex-etcfail2banfilterdufw-probeconf)
+- [The action file (/etc/fail2ban/action.d/ufw.conf)](#the-action-file-etcfail2banactiondufwconf)
+- [Final thoughts](#final-thoughts)
 
 ## Overview
 
