@@ -281,7 +281,7 @@ it's the UFW log file which is, by default, located at */var/log/ufw.log*.  If
 you've changed this, then update the '*logpath*' parameter.  We also need to
 tell it what filter to use when parsing the file, in this case, it's a filter
 I've called 'ufw-probe' (change this if you change the filename) which is
-located at */etc/fail2ban/filter.d/ufw-probe.conf* [details here].  Finally, we
+located at */etc/fail2ban/filter.d/ufw-probe.conf* [details here](#The-UFW-filter-regex-(/etc/fail2ban/filter.d/ufw-probe.conf)).  Finally, we
 tell F2B to enable this jail.
 
 ```Ini
@@ -289,4 +289,58 @@ logpath     = /var/log/ufw.log
 filter      = ufw-probe
 enabled     = true
 ```
+
+## The UFW filter regex (/etc/fail2ban/filter.d/ufw-probe.conf)
+
+When F2B is parsing *ufw.log*, it has to be told what entry denotes a failure
+and increments the retry counter toward a ban.  This is done via a regular
+expression (REGEX):
+
+```PHP
+.*\[UFW BLOCK\] IN=.* SRC=<HOST>
+```
+
+Specifically, this matches any line containing '*[UFW BLOCK]*' and includes the
+source IP address '*<HOST>*'
+
+## The action file (/etc/fail2ban/action.d/ufw.conf)
+
+This is the file that tells F2B what commands to send to UFW to block and
+unblock a system.  If you downloaded a fairly recent version of F2B, then you
+should already have this file.  If not, you can copy the one in this git.
+
+You can see that the '*actionban*' and '*actionunban*' sections simply add and
+remove rules from UFW which drop/reject packets from the offending system.  I
+have only changed the '*blocktype*' from it's default (reject) to *deny*.
+
+```Ini
+# Option: blocktype
+# Notes.: reject or deny
+#blocktype = reject
+blocktype = deny
+```
+
+For example, the important part of '*actionban*' works like this:
+
+```PHP
+ufw insert <insertpos> <blocktype> from <ip> to <destination>
+```
+
+The variables defined in the configuration file are summarized as:
+
+```Ini
+[Init]
+insertpos = 1
+blocktype = deny
+destination = any
+application = 
+```
+
+So, this rule adds a new rule (*insert*) at position 1 (*insertpos*) which
+denies (*blocktype*) packets from the offending system's IP (*ip*) destinend for
+any address (which obviously includes this system).  Importantly, each rule is
+added at *position 1* which means they have priority over any other
+otherwise defined (i.e. allowed) traffic.
+
+The '*actionunban*' simply deletes the rule to remove the block.
 
