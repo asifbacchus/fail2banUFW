@@ -5,25 +5,26 @@
 - [Overview](#overview)
 - [Installing an up-to-date Fail2Ban version](#installing-an-up-to-date-fail2ban-version)
 - [Customizing your set up](#customizing-your-set-up)
-    - [/etc/fail2ban/fail2ban.conf](#etcfail2banfail2banconf)
-        - [loglevel](#loglevel)
-        - [logtarget](#logtarget)
-        - [dbpurgeage](#dbpurgeage)
-    - [/etc/fail2ban/jail.local](#etcfail2banjaillocal)
-        - [ignoreip](#ignoreip)
-        - [Timeframes](#timeframes)
-        - [Actions](#actions)
-            - [Notication options](#notication-options)
-            - [Shortcuts](#shortcuts)
+  - [/etc/fail2ban/fail2ban.conf](#etcfail2banfail2banconf)
+    - [loglevel](#loglevel)
+    - [logtarget](#logtarget)
+    - [dbpurgeage](#dbpurgeage)
+  - [/etc/fail2ban/jail.local](#etcfail2banjaillocal)
+    - [ignoreip](#ignoreip)
+    - [Timeframes](#timeframes)
+    - [Actions](#actions)
+      - [Notication options](#notication-options)
+      - [Shortcuts](#shortcuts)
 - [Jails](#jails)
-    - [sshd (/etc/fail2ban/jail.d/ssh.conf)](#sshd-etcfail2banjaildsshconf)
-    - [UFW port probing](#ufw-port-probing)
-        - [Name of the jail](#name-of-the-jail)
-        - [Ports and IPs](#ports-and-ips)
-        - [Timeframes](#timeframes)
-        - [Jail-specific settings](#jail-specific-settings)
+  - [sshd (/etc/fail2ban/jail.d/ssh.conf)](#sshd-etcfail2banjaildsshconf)
+  - [UFW port probing](#ufw-port-probing)
+    - [Name of the jail](#name-of-the-jail)
+    - [Ports and IPs](#ports-and-ips)
+    - [Timeframes](#timeframes)
+    - [Jail-specific settings](#jail-specific-settings)
 - [The UFW filter regex (/etc/fail2ban/filter.d/ufw-probe.conf)](#the-ufw-filter-regex-etcfail2banfilterdufw-probeconf)
 - [The action file (/etc/fail2ban/action.d/ufw.conf)](#the-action-file-etcfail2banactiondufwconf)
+- [Repeat offenders](#repeat-offenders)
 - [Final thoughts](#final-thoughts)
 
 ## Overview
@@ -375,6 +376,62 @@ added at *position 1* which means they have priority over any other
 otherwise defined (i.e. allowed) traffic.
 
 The '*actionunban*' simply deletes the rule to remove the block.
+
+## Repeat offenders
+
+In some cases, the same systems will continue probing your system even after
+being banned several times.  I choose to call these '*recidivists*' and setup a
+special jail for them.
+
+The *recidivist jail* scans the *fail2ban* log to search for systems that have
+been issued a certain threshold number of bans already.  If any are found, they
+are issued a longer-term ban.  Let's go though the configuration:
+
+The beginning of the file should already be familiar to you along with the fact
+that the '*ignoreip*' parameter is optional.
+
+Remember that we are searching for repeat offenders.  In other words, they have
+already been issued a ban by F2B so their IP will already appear in F2B's log,
+which is why we are searching that file.
+
+```Ini
+logpath   = /var/log/fail2ban.log
+```
+
+Timeframes here present a bit of a twist in thinking.  In this case,
+'*maxretry*' refers to how many previous bans have been issued in '*findtime*'
+period.
+
+```Ini
+maxretry    = 3
+findtime    = 86400
+```
+
+In this example, I'm saying that if a particular host has already been banned 3
+times in the last 24 hours (86400 seconds), then they need to be put in this
+jail!  You should adjust these values to reflect your tolerance levels for
+repeat offenders.  **Note: The '*dbpurgeage*' you specified in your
+*/etc/fail2ban/fail2ban.conf* file must be at least as long as your '*findtime*'
+parameter here so there's enough history for F2B to review!**
+
+The entire point of this jail is to levy longer bantimes than ordinary jails
+which generally use the default set in '*/etc/fail2ban/jail.conf*'.
+Therefore, we explictly specify a time here, 3 days in this case:
+
+```Ini
+bantime     = 259200
+```
+
+Finally, we need to let F2B know what filter to use when parsing it's own log
+file. We'll use the *recidive* filter provided by F2B for exactly this purpose.
+Since we are calling this filter from a jail with a different name (i.e. the
+jail is not also called 'recidive'), we have to make that clear to the filter.
+Finally, we also enable the jail.
+
+```Ini
+filter      = recidive[_jailname="recidivist"]
+enabled     = true
+```
 
 ## Final thoughts
 
