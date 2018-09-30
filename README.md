@@ -344,3 +344,15 @@ otherwise defined (i.e. allowed) traffic.
 
 The '*actionunban*' simply deletes the rule to remove the block.
 
+## Final thoughts
+
+Well, that's it.  Fail2Ban will now monitor SSH intrusion attempts and will also
+search the logs for any systems that try to connect to blocked ports looking for
+an entry vector into your system.  It will then block those systems
+automatically for whatever timeframe you specify and then remove that block.  So
+you don't have to maintain IP block/allow lists manually anymore!
+
+I hope this helps you in dealing with your server getting bombarded by
+irritating scanning-bots.  As always, check out my block at
+https://mytechiethoughts.com for more solutions like this and feel free to
+contribute comments, suggestions and improvements!
