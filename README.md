@@ -82,8 +82,9 @@ updates.
 I recommend reviewing the following settings at a minimum for any deployment:
 
 #### loglevel
+
 This sets the verbosity of the log output from F2B.  The default setting of INFO
-is appropriate for most installs but, you should specify it anyways so you have
+is appropriate for most installs but, you should specify it anyway so you have
 an easy place to change it if you need to do so.
 
 ```Ini
@@ -91,6 +92,7 @@ loglevel = INFO
 ```
 
 #### logtarget
+
 This controls the location of the F2B log file where it logs it's own actions.
 This is NOT the location of the log files it reads for banning!  Again, the
 default is appropriate for most installs, but you should specify it in your
@@ -101,6 +103,7 @@ logtarget = /var/log/fail2ban.log
 ```
 
 #### dbpurgeage
+
 This controls how long F2B keeps a record of systems it has banned for whatever
 reason.  By default, this is set to one day. I prefer having a one week record
 so I can go back and review as necessary.  You can set it to whatever you want,
@@ -212,6 +215,7 @@ preference since it allows for each jail to be contained in it's own
 configuration file which makes debugging and maintaining them much easier.
 
 ### sshd (/etc/fail2ban/jail.d/ssh.conf)
+
 I usually just define a basic jail for *sshd* which is the SSH server.  You can
 add additional SSH jails as you wish to this file, but I keep it pretty simple.
 One note, I run my SSH server on a non-standard port, so be sure you fill in the
@@ -335,7 +339,7 @@ The variables defined in the configuration file are summarized as:
 insertpos = 1
 blocktype = deny
 destination = any
-application = 
+application =
 ```
 
 So, this rule adds a new rule (*insert*) at position 1 (*insertpos*) which
@@ -355,6 +359,6 @@ automatically for whatever timeframe you specify and then remove that block.  So
 you don't have to maintain IP block/allow lists manually anymore!
 
 I hope this helps you in dealing with your server getting bombarded by
-irritating scanning-bots.  As always, check out my blog at
-https://mytechiethoughts.com for more solutions like this and feel free to
-contribute comments, suggestions and improvements!
+irritating scanning-bots.  As always, [check out my blog at
+https://mytechiethoughts.com](https://mytechiethoughts.com) for more solutions
+like this and feel free to contribute comments, suggestions and improvements!
