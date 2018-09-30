@@ -5,7 +5,7 @@
 This is a basic set up for Fail2Ban on an system that is directly exposed to the
 internet (i.e. not behind a separate firewall).
 
-**This set-up assumes you are using UFW as your firewall front-end and it's
+**This set-up assumes you are using UFW as your firewall front-end and it is
 working correctly.**
 
 In addition to the standard SSHd jail, a separate jail that monitors UFW BLOCK
@@ -54,7 +54,7 @@ newer version from the source at github.
   ```
 
 - Let's go ahead and start the service to make sure it doesn't run into any
-  problems.  You shouldn't see any errors reported and should have a pleasant
+  problems.  You should not see any errors reported and should have a pleasant
   'green dot' showing up.
 
   ```Bash
@@ -79,13 +79,12 @@ updates.
 
 ### /etc/fail2ban/fail2ban.conf
 
-I recommend reviewing your the following settings at a minimum for any
-deployment:
+I recommend reviewing the following settings at a minimum for any deployment:
 
 #### loglevel
 This sets the verbosity of the log output from F2B.  The default setting of INFO
 is appropriate for most installs but, you should specify it anyways so you have
-any easy place to change it if you need to do so.
+an easy place to change it if you need to do so.
 
 ```Ini
 loglevel = INFO
@@ -113,7 +112,7 @@ dbpurgeage = 604800
 
 ### /etc/fail2ban/jail.local
 
-This file overrides the defaults applied to all jail configurations used by F2B.
+This file customizes the defaults applied to all jail configurations used by F2B.
 This sets things like the default amount of time a system is banned, what
 actions should be used for banning systems and whether or not you get email
 notifications, etc.
@@ -122,9 +121,10 @@ notifications, etc.
 
 This setting tells F2B which IP addresses/ranges/hostnames should **never** be
 banned.  In general, this should be the localhost only.  However, if you connect
-by remote using a particular machine, you might want to exempt it from any
-possible bans also.  You can specify more than one entry by separating them with
-a space or comma.  In this case, I've added the IP4 and IP6 defintions for localhost.
+by remote using a particular machine, you might also want to exempt it from any
+possible bans.  You can specify more than one entry by separating them with a
+space or comma.  In this case, I've added the IP4 and IP6 defintions for
+localhost.
 
 ```Ini
 ignoreip = 127.0.0.1/8 ::1
@@ -173,12 +173,12 @@ sender = thismachine@domain.tld
 mta = sendmail
 ```
 
-The '*mta*' field is very likely correct for your system, but if you are using a
+The '*mta*' field is very likely correct for your system but, if you are using a
 different MTA, you'll want to specify that here.
 
 ##### Shortcuts
 
-This is where you tell F2B what exactly to do when it finds a reason to ban a
+This is where you tell F2B exactly what to do when it finds a reason to ban a
 system based on the jail configuration.  Again, individual jails can override
 these settings.  The settings are defined backwards in this file, so I'll take a
 second to explain.
@@ -193,7 +193,9 @@ banned.
 Within '*action*' is '*banaction*' which is a link over to a specific
 configuration file telling F2B what to do on the system to enforce the ban.  In
 this setup, we direct F2B to look at the ufw.conf file to see how to modify
-UFW's rules so it drops packets from the offending system.  Details on that file are found later in this document.
+UFW's rules so it drops packets from the offending system.  [Details on that
+file are found later in this
+document](#The-action-file-(/etc/fail2ban/action.d/ufw.conf)).
 
 The general setup as described above is as follows:
 
@@ -210,9 +212,9 @@ preference since it allows for each jail to be contained in it's own
 configuration file which makes debugging and maintaining them much easier.
 
 ### sshd (/etc/fail2ban/jail.d/ssh.conf)
-I usually just define a jail for *sshd* which is the SSH server.  You can add
-additional SSH jails as you wish to this file, but I keep it pretty simple.  One
-note, I run my SSH server on a non-standard port, so be sure you fill in the
+I usually just define a basic jail for *sshd* which is the SSH server.  You can
+add additional SSH jails as you wish to this file, but I keep it pretty simple.
+One note, I run my SSH server on a non-standard port, so be sure you fill in the
 correct port for your environment such as my example below of port 222:
 
 ```Ini
@@ -235,7 +237,7 @@ logpath     = /path/to/your/log.file
 
 ### UFW port probing
 
-This is probably the what you are really looking for in this entire set-up.  We
+This is probably the part you are really looking for in this entire set-up.  We
 will create a custom jail that monitors UFW's logs for any mention of *[UFW
 BLOCK]* and then proceeds to ban those systems attempting to connect to blocked
 ports as per your timeframe settings.  I've commented the ufw-probe file but
@@ -281,7 +283,7 @@ it's the UFW log file which is, by default, located at */var/log/ufw.log*.  If
 you've changed this, then update the '*logpath*' parameter.  We also need to
 tell it what filter to use when parsing the file, in this case, it's a filter
 I've called 'ufw-probe' (change this if you change the filename) which is
-located at */etc/fail2ban/filter.d/ufw-probe.conf* [details here](#The-UFW-filter-regex-(/etc/fail2ban/filter.d/ufw-probe.conf)).  Finally, we
+located at */etc/fail2ban/filter.d/ufw-probe.conf* [(details here)](#The-UFW-filter-regex-(/etc/fail2ban/filter.d/ufw-probe.conf)).  Finally, we
 tell F2B to enable this jail.
 
 ```Ini
@@ -320,7 +322,7 @@ have only changed the '*blocktype*' from it's default (reject) to *deny*.
 blocktype = deny
 ```
 
-For example, the important part of '*actionban*' works like this:
+The important part of '*actionban*' works like this:
 
 ```PHP
 ufw insert <insertpos> <blocktype> from <ip> to <destination>
@@ -337,7 +339,7 @@ application =
 ```
 
 So, this rule adds a new rule (*insert*) at position 1 (*insertpos*) which
-denies (*blocktype*) packets from the offending system's IP (*ip*) destinend for
+denies (*blocktype*) packets from the offending system's IP (*ip*) destined for
 any address (which obviously includes this system).  Importantly, each rule is
 added at *position 1* which means they have priority over any other
 otherwise defined (i.e. allowed) traffic.
@@ -353,6 +355,6 @@ automatically for whatever timeframe you specify and then remove that block.  So
 you don't have to maintain IP block/allow lists manually anymore!
 
 I hope this helps you in dealing with your server getting bombarded by
-irritating scanning-bots.  As always, check out my block at
+irritating scanning-bots.  As always, check out my blog at
 https://mytechiethoughts.com for more solutions like this and feel free to
 contribute comments, suggestions and improvements!
