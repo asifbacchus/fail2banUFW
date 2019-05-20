@@ -8,13 +8,9 @@
 
 ### set script output colours
 normal="\e[0m"
-bold="\e[1m"
-default="\e[39m"
 err="\e[1;31m"
-warn="\e[1;93m"
 ok="\e[32m"
 lit="\e[93m"
-op="\e[39m"
 info="\e[96m"
 note="\e[95m"
 
