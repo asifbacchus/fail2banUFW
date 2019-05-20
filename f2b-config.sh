@@ -45,3 +45,25 @@ fi
 
 ### default values for variables
 F2B-DIR='/etc/fail2ban'
+
+
+### user info preamble
+echo
+echo -e "${note}------------------------------------------------------------" \
+    "--------------------${normal}"
+echo -e "${info}This script will copy customized configuration files to your" \
+    "fail2ban"
+echo -e "configuration directory.  It will backup any existing files with the" \
+    "extension"
+echo -e "${note}'.original'${info}.${normal}"
+echo
+echo -e "${info}Please ensure you have reviewed the ${note}README${info} in" \
+    "this git archive and/or it's"
+echo -e "associated wiki or the blog post at${note}" \
+    "https://mytechiethoughts.com${info} to understand"
+echo -e "how to customize these template files.${normal}"
+echo -e "${note}------------------------------------------------------------" \
+    "--------------------${normal}"
+echo
+
+
