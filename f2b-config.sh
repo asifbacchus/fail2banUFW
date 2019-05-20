@@ -42,3 +42,6 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 2
 fi
 
+
+### default values for variables
+F2B-DIR='/etc/fail2ban'
