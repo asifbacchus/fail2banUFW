@@ -112,3 +112,31 @@ fi
 echo -e "${info}Copy jail configuration files${normal} -- ${ok}[OK]${normal}"
 
 
+### user post-amble
+echo
+echo -e "${note}------------------------------------------------------------" \
+    "--------------------${normal}"
+
+Script operations completed successfully.
+
+You can now customize the template files if/as your desire.  Then do the following to load and confirm your new configuration:
+
+echo -e "${ok}Script operations completed successfully!"
+echo
+echo -e "${info}You can now customize the template files if/as you desire." \
+    "Then do the"
+echo -e "following to load and confirm your new configuration:${normal}"
+echo -e "1. systemctl restart fail2ban.service"
+echo -e "2. systemctl --full --no-pager status fail2ban.service"
+echo -e "3. fail2ban-client status"
+echo
+echo -e "${note}To revert your configuration, simply copy the ${lit}.original" \
+    "${note}files over the modified"
+echo -e "files.  For example, ${lit}cp jail.local.original jail.local${normal}"
+echo -e "${note}--------------------------------Script--Complete------------" \
+    "--------------------${normal}"
+echo
+
+
+### exit gracefully
+exit 0
