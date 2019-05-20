@@ -21,24 +21,18 @@ note="\e[95m"
 
 ### functions
 
-function backupFiles {
-    # check if file exists
-    if [ -f "${F2B-DIR}/$1" ]; then
-        if [ "$(cp "${F2B-DIR}/$1" "${F2B-DIR}/$1.original")" -ne 0 ]; then
-            echo
-            echo -e "${err}There was a problem backing up your current" \
-                "configuration."
-            echo -e "This suggests some kind of permissions error. Please" \
-                "remedy this and rerun"
-            echo -e "this script."
-            echo
-            echo -e "${note}Error backing up file: ${lit}$1"
-            echo
-            echo -e "${err}Exiting.${normal}"
-            echo
-            exit 100
-        fi
-    fi
+function copyFailureure {
+    echo
+    echo -e "${err}There was a problem backing up your current configuration."
+    echo -e "This suggests some kind of permissions error. Please remedy this" \
+        "and rerun"
+    echo -e "this script."
+    echo
+    echo -e "${note}Error backing up: ${lit}$1"
+    echo
+    echo -e "${err}Exiting.${normal}"
+    echo
+    exit 100
 }
 
 ### end of functions
@@ -92,28 +86,28 @@ echo
 # copy .local files
 if [ "$(\cp --force --backup=simple --suffix=.original \
     etc/fail2ban/*.local "${F2B-DIR}/")" -ne 0 ]; then
-        copyFail
+        copyFailure 'general config files (.local)'
 fi
 echo -e "${info}Copy general configuration files${normal} -- ${ok}[OK]${normal}"
 
 # copy action configuration files
 if [ "$(\cp --force --backup=simple --suffix=.original \
     etc/fail2ban/action.d/* "${F2B-DIR}/action.d/")" -ne 0 ]; then
-        copyFail
+        copyFailure 'action files'
 fi
 echo -e "${info}Copy action configuration files${normal} -- ${ok}[OK]${normal}"
 
 # copy filter configuration files
 if [ "$(\cp --force --backup=simple --suffix=.original \
     etc/fail2ban/filter.d/* "${F2B-DIR}/filter.d/")" -ne 0 ]; then
-        copyFail
+        copyFailure 'filter files'
 fi
 echo -e "${info}Copy filter configuration files${normal} -- ${ok}[OK]${normal}"
 
 # copy jail configuration files
 if [ "$(\cp --force --backup=simple --suffix=.original \
     etc/fail2ban/jail.d/* "${F2B-DIR}/jail.d/")" -ne 0 ]; then
-        copyFail
+        copyFailure 'jail files'
 fi
 echo -e "${info}Copy jail configuration files${normal} -- ${ok}[OK]${normal}"
 
