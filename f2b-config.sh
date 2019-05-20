@@ -24,25 +24,23 @@ note="\e[95m"
 function backupFiles {
     # check if file exists
     if [ -f "${F2B-DIR}/$1" ]; then
-        cp "${F2B-DIR}/$1" "${F2B-DIR}/$1.original"
-        return "$?"
+        if [ "$(cp "${F2B-DIR}/$1" "${F2B-DIR}/$1.original")" -ne 0 ]; then
+            echo
+            echo -e "${err}There was a problem backing up your current" \
+                "configuration."
+            echo -e "This suggests some kind of permissions error. Please" \
+                "remedy this and rerun"
+            echo -e "this script."
+            echo
+            echo -e "${note}Error backing up file: ${lit}$1"
+            echo
+            echo -e "${err}Exiting.${normal}"
+            echo
+            exit 100
+        fi
     fi
-    return 0
 }
 
-function backupFail {
-    echo
-    echo -e "${err}There was a problem backing up your current configuration."
-    echo -e "This suggests some kind of permissions error. Please remedy this" \
-        "and rerun"
-    echo -e "this script."
-    echo
-    echo -e "${note}Error backing up file: ${lit}$1"
-    echo
-    echo -e "${err}Exiting.${normal}"
-    echo
-    exit 100
-}
 ### end of functions
 
 
