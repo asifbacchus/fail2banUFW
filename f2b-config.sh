@@ -21,6 +21,15 @@ note="\e[95m"
 
 ### functions
 
+function backupFiles {
+    # check if file exists
+    if [ -f "${F2B-DIR}/$1" ]; then
+        cp "${F2B-DIR}/$1" "${F2B-DIR}/$1.original"
+        return "$?"
+    fi
+    return 0
+}
+
 ### end of functions
 
 
