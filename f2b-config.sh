@@ -116,11 +116,6 @@ echo -e "${info}Copy jail configuration files${normal} -- ${ok}[OK]${normal}"
 echo
 echo -e "${note}------------------------------------------------------------" \
     "--------------------${normal}"
-
-Script operations completed successfully.
-
-You can now customize the template files if/as your desire.  Then do the following to load and confirm your new configuration:
-
 echo -e "${ok}Script operations completed successfully!"
 echo
 echo -e "${info}You can now customize the template files if/as you desire." \
