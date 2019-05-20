@@ -30,6 +30,19 @@ function backupFiles {
     return 0
 }
 
+function backupFail {
+    echo
+    echo -e "${err}There was a problem backing up your current configuration."
+    echo -e "This suggests some kind of permissions error. Please remedy this" \
+        "and rerun"
+    echo -e "this script."
+    echo
+    echo -e "${note}Error backing up file: ${lit}$1"
+    echo
+    echo -e "${err}Exiting.${normal}"
+    echo
+    exit 100
+}
 ### end of functions
 
 
@@ -76,3 +89,4 @@ echo -e "${note}------------------------------------------------------------" \
 echo
 
 
+### copy template files
