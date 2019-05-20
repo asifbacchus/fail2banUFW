@@ -88,3 +88,33 @@ echo
 
 
 ### copy template files
+# note: prefixing cp with '\' to override any alias settings
+# copy .local files
+if [ "$(\cp --force --backup=simple --suffix=.original \
+    etc/fail2ban/*.local "${F2B-DIR}/")" -ne 0 ]; then
+        copyFail
+fi
+echo -e "${info}Copy general configuration files${normal} -- ${ok}[OK]${normal}"
+
+# copy action configuration files
+if [ "$(\cp --force --backup=simple --suffix=.original \
+    etc/fail2ban/action.d/* "${F2B-DIR}/action.d/")" -ne 0 ]; then
+        copyFail
+fi
+echo -e "${info}Copy action configuration files${normal} -- ${ok}[OK]${normal}"
+
+# copy filter configuration files
+if [ "$(\cp --force --backup=simple --suffix=.original \
+    etc/fail2ban/filter.d/* "${F2B-DIR}/filter.d/")" -ne 0 ]; then
+        copyFail
+fi
+echo -e "${info}Copy filter configuration files${normal} -- ${ok}[OK]${normal}"
+
+# copy jail configuration files
+if [ "$(\cp --force --backup=simple --suffix=.original \
+    etc/fail2ban/jail.d/* "${F2B-DIR}/jail.d/")" -ne 0 ]; then
+        copyFail
+fi
+echo -e "${info}Copy jail configuration files${normal} -- ${ok}[OK]${normal}"
+
+
