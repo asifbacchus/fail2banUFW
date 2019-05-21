@@ -19,7 +19,7 @@ working correctly.**
 
 In addition to the standard SSHd jail, a separate jail that monitors UFW BLOCK
 reports (i.e. connection attempts to closed ports, etc.) is activated.  This
-should aid in blocking 'scriptkiddies' and port-scanning attacks, reducing the
+should aid in blocking 'script-kiddies' and port-scanning attacks, reducing the
 resources your server has to allocate to processing bogus requests.  F2B will
 automatically create UFW rules to drop connections from systems that try to make
 repeated invalid connection attempts and then remove the block automatically
@@ -35,8 +35,8 @@ If you need help getting Fail2Ban installed before using this repo to customize 
 
 Setup is very simple, especially using the included convenience script which will take care of backing up your existing configuration and copying customized files to the proper locations for you.
 
-  1.  Clone this repository or download a release.
-  2.  Switch to the repo directory and run the *f2b-config.sh* as ROOT or via SUDO.
+  1. Clone this repository or download a release.
+  2. Switch to the repo directory and run the *f2b-config.sh* as ROOT or via SUDO.
 
   ```bash
   cd fail2banUFW
