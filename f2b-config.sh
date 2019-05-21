@@ -60,8 +60,7 @@ echo "(testing: base-dir is: ${F2B_DIR})"
 
 ### user info preamble
 echo
-echo -e "${note}------------------------------------------------------------" \
-    "--------------------${normal}"
+echo -e "${note}--------------------------------------------------------------------------------${normal}"
 echo -e "${info}This script will copy customized configuration files to your" \
     "fail2ban"
 echo -e "configuration directory.  It will backup any existing files with the" \
@@ -73,8 +72,7 @@ echo -e "${info}Please ensure you have reviewed the ${note}README${info} in" \
 echo -e "associated wiki or the blog post at${note}" \
     "https://mytechiethoughts.com${info} to understand"
 echo -e "how to customize these template files.${normal}"
-echo -e "${note}------------------------------------------------------------" \
-    "--------------------${normal}"
+echo -e "${note}--------------------------------------------------------------------------------${normal}"
 echo
 
 
@@ -111,8 +109,7 @@ echo -e "${info}Copy jail configuration files${normal} -- ${ok}[OK]${normal}"
 
 ### user post-amble
 echo
-echo -e "${note}------------------------------------------------------------" \
-    "--------------------${normal}"
+echo -e "${note}--------------------------------------------------------------------------------${normal}"
 echo -e "${ok}Script operations completed successfully!"
 echo
 echo -e "${info}You can now customize the template files if/as you desire." \
@@ -125,8 +122,7 @@ echo
 echo -e "${note}To revert your configuration, simply copy the ${lit}.original" \
     "${note}files over the modified"
 echo -e "files.  For example, ${lit}cp jail.local.original jail.local${normal}"
-echo -e "${note}--------------------------------Script--Complete------------" \
-    "--------------------${normal}"
+echo -e "${note}--------------------------------Script--Complete--------------------------------${normal}"
 echo
 
 
