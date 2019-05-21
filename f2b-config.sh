@@ -114,6 +114,26 @@ echo -e "how to customize these template files.${normal}"
 echo -e "${note}--------------------------------------------------------------------------------${normal}"
 echo
 
+# confirm user wants to proceed
+while true; do
+    read -rp "Do you want to proceed? (default: Yes) " yn
+    case "${yn}" in
+        [Yy]*|'')
+            break
+            ;;
+        [Nn]*)
+            # exit gracefully, user choice
+            echo -e "\n${info}Exiting now.${normal}\n"
+            exit 0
+            ;;
+        *)
+            # invalid input
+            echo -e "\n${lit}Please answer (Y)es or (N)o or accept default" \
+                "${normal}"
+            ;;
+    esac
+done
+
 
 ### copy template files
 # note: prefixing cp with '\' to override any alias settings
