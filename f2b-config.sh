@@ -17,7 +17,7 @@ note="\e[95m"
 
 ### functions
 
-function copyFailureure {
+function copyFailure {
     echo
     echo -e "${err}There was a problem backing up your current configuration."
     echo -e "This suggests some kind of permissions error. Please remedy this" \
