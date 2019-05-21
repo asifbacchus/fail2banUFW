@@ -55,8 +55,46 @@ fi
 
 
 ### default values for variables
-F2B_DIR="$1"
-echo "(testing: base-dir is: ${F2B_DIR})"
+F2B_DIR="/etc/fail2ban"
+
+
+### handle provided fail2ban configuration directory provided by user
+if [ "$1" ]; then
+    # test if provided path actually exists
+    if [ ! -d "$1" ]; then
+        echo
+        echo -e "${err}Could not find the specified fail2ban configuration" \
+            "directory."
+        echo -e "${lit}($1)"
+        echo -e "${err}Perhaps you mistyped it?  Exiting.${normal}"
+        echo
+        exit 3
+    elif [ ! -f "$1/fail2ban.conf" ]; then
+        echo
+        echo -e "${err}The specified fail2ban configuration directory does" \
+            "not seem to contain"
+        echo -e "fail2ban configuration files.  Perhaps you provided the" \
+            "wrong directory?"
+        echo -e "${lit}($1)"
+        echo -e "${err}Exiting.${normal}"
+        echo
+        exit 4
+    else
+        F2B_DIR="${1%/}"
+    fi
+fi
+
+
+### last check: is the directory writable
+if [ ! -w "${F2B_DIR}" ]; then
+    echo
+    echo -e "${err}The specified fail2ban configuration directory is not" \
+        "writable."
+    echo -e "${lit}(${F2B_DIR})"
+    echo -e "${err}Exiting.${normal}"
+    echo
+    exit 5
+fi
 
 
 ### user info preamble
@@ -136,6 +174,8 @@ exit 0
 #       installed
 # 2:    script not run as ROOT (needed to avoid any permissions issues)
 # 3:    invalid fail2ban configuration directory provided by user
+# 4:    provided fail2ban configuration directory is missing fail2ban.conf
+# 5:    fail2ban configuration directory is not writable
 # 99:   internal testing error code, should *not* appear in releases
 # 100:  error copying files to fail2ban configuration directory and/or making 
 #       simultaneous backup copies of any exisitng files.
