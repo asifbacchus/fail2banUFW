@@ -79,29 +79,29 @@ echo
 ### copy template files
 # note: prefixing cp with '\' to override any alias settings
 # copy .local files
-if [ "$(\cp --force --backup=simple --suffix=.original \
-    etc/fail2ban/*.local "${F2B_DIR}/")" -ne 0 ]; then
+if [ ! "$(\cp --force --backup=simple --suffix=.original \
+    etc/fail2ban/*.local "${F2B_DIR}/")" ]; then
         copyFailure 'general config files (.local)'
 fi
 echo -e "${info}Copy general configuration files${normal} -- ${ok}[OK]${normal}"
 
 # copy action configuration files
-if [ "$(\cp --force --backup=simple --suffix=.original \
-    etc/fail2ban/action.d/* "${F2B_DIR}/action.d/")" -ne 0 ]; then
+if [ ! "$(\cp --force --backup=simple --suffix=.original \
+    etc/fail2ban/action.d/* "${F2B_DIR}/action.d/")" ]; then
         copyFailure 'action files'
 fi
 echo -e "${info}Copy action configuration files${normal} -- ${ok}[OK]${normal}"
 
 # copy filter configuration files
-if [ "$(\cp --force --backup=simple --suffix=.original \
-    etc/fail2ban/filter.d/* "${F2B_DIR}/filter.d/")" -ne 0 ]; then
+if [ ! "$(\cp --force --backup=simple --suffix=.original \
+    etc/fail2ban/filter.d/* "${F2B_DIR}/filter.d/")" ]; then
         copyFailure 'filter files'
 fi
 echo -e "${info}Copy filter configuration files${normal} -- ${ok}[OK]${normal}"
 
 # copy jail configuration files
-if [ "$(\cp --force --backup=simple --suffix=.original \
-    etc/fail2ban/jail.d/* "${F2B_DIR}/jail.d/")" -ne 0 ]; then
+if [ ! "$(\cp --force --backup=simple --suffix=.original \
+    etc/fail2ban/jail.d/* "${F2B_DIR}/jail.d/")" ]; then
         copyFailure 'jail files'
 fi
 echo -e "${info}Copy jail configuration files${normal} -- ${ok}[OK]${normal}"
