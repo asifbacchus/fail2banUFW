@@ -28,7 +28,7 @@ If you need help getting Fail2Ban installed before using this repo to customize 
 Setup is very simple, especially using the included convenience script which will take care of backing up your existing configuration and copying customized files to the proper locations for you.
 
   1. Clone this repository or download a release.
-  2. Switch to the repo directory and run the *f2b-config.sh* as ROOT or via SUDO.
+  2. Switch to the repo directory and run the *f2b-config&#46;sh* as ROOT or via SUDO.
 
   ```bash
   cd fail2banUFW
