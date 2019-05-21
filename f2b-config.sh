@@ -25,7 +25,7 @@ function copyFailure {
         "and rerun"
     echo -e "this script."
     echo
-    echo -e "${note}Error backing up: ${lit}$1"
+    echo -e "${normal}Error copying: ${lit}$1"
     echo
     echo -e "${err}Exiting.${normal}"
     echo
