@@ -19,7 +19,8 @@ note="\e[95m"
 
 function copyFailure {
     echo
-    echo -e "${err}There was a problem backing up your current configuration."
+    echo -e "${err}There was a problem backing-up/copying the configuration" \
+        "files."
     echo -e "This suggests some kind of permissions error. Please remedy this" \
         "and rerun"
     echo -e "this script."
