@@ -129,3 +129,13 @@ echo
 
 ### exit gracefully
 exit 0
+
+
+### error code summary
+# 1:    fail2ban executable file could not be found -- fail2ban likely not
+#       installed
+# 2:    script not run as ROOT (needed to avoid any permissions issues)
+# 3:    invalid fail2ban configuration directory provided by user
+# 99:   internal testing error code, should *not* appear in releases
+# 100:  error copying files to fail2ban configuration directory and/or making 
+#       simultaneous backup copies of any exisitng files.
