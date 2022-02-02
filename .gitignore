@@ -1,2 +1,3 @@
-### Ignore .vscode settings
-.vscode/*
+### Ignore .IDE settings
+.vscode
+.idea
